@@ -10,25 +10,25 @@ exports[`Snapshot 1`] = `
     },
   },
   "Resources": {
-    "Eic": {
+    "NetworkEic381B19AB": {
       "Properties": {
         "SecurityGroupIds": [
           {
             "Fn::GetAtt": [
-              "EicSg99B0C901",
+              "NetworkEicSg49118B38",
               "GroupId",
             ],
           },
         ],
         "SubnetId": {
-          "Ref": "VpcProtectedSubnet1Subnet38ECE18A",
+          "Ref": "NetworkVpcProtectedSubnet1Subnet3489B8A9",
         },
       },
       "Type": "AWS::EC2::InstanceConnectEndpoint",
     },
-    "EicSg99B0C901": {
+    "NetworkEicSg49118B38": {
       "Properties": {
-        "GroupDescription": "test/EicSg",
+        "GroupDescription": "test/Network/EicSg",
         "SecurityGroupEgress": [
           {
             "CidrIp": "255.255.255.255/32",
@@ -39,12 +39,12 @@ exports[`Snapshot 1`] = `
           },
         ],
         "VpcId": {
-          "Ref": "Vpc8378EB38",
+          "Ref": "NetworkVpc7FB7348F",
         },
       },
       "Type": "AWS::EC2::SecurityGroup",
     },
-    "Vpc8378EB38": {
+    "NetworkVpc7FB7348F": {
       "Properties": {
         "CidrBlock": "10.0.0.0/16",
         "EnableDnsHostnames": true,
@@ -53,49 +53,49 @@ exports[`Snapshot 1`] = `
         "Tags": [
           {
             "Key": "Name",
-            "Value": "test/Vpc",
+            "Value": "test/Network/Vpc",
           },
         ],
       },
       "Type": "AWS::EC2::VPC",
     },
-    "VpcIGWD7BA715C": {
+    "NetworkVpcIGW6BEA7B02": {
       "Properties": {
         "Tags": [
           {
             "Key": "Name",
-            "Value": "test/Vpc",
+            "Value": "test/Network/Vpc",
           },
         ],
       },
       "Type": "AWS::EC2::InternetGateway",
     },
-    "VpcPrivateSubnet1RouteTableAssociation70C59FA6": {
-      "Properties": {
-        "RouteTableId": {
-          "Ref": "VpcPrivateSubnet1RouteTableB2C5B500",
-        },
-        "SubnetId": {
-          "Ref": "VpcPrivateSubnet1Subnet536B997A",
-        },
-      },
-      "Type": "AWS::EC2::SubnetRouteTableAssociation",
-    },
-    "VpcPrivateSubnet1RouteTableB2C5B500": {
+    "NetworkVpcPrivateSubnet1RouteTable7D7AA3CD": {
       "Properties": {
         "Tags": [
           {
             "Key": "Name",
-            "Value": "test/Vpc/PrivateSubnet1",
+            "Value": "test/Network/Vpc/PrivateSubnet1",
           },
         ],
         "VpcId": {
-          "Ref": "Vpc8378EB38",
+          "Ref": "NetworkVpc7FB7348F",
         },
       },
       "Type": "AWS::EC2::RouteTable",
     },
-    "VpcPrivateSubnet1Subnet536B997A": {
+    "NetworkVpcPrivateSubnet1RouteTableAssociation327CA62F": {
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "NetworkVpcPrivateSubnet1RouteTable7D7AA3CD",
+        },
+        "SubnetId": {
+          "Ref": "NetworkVpcPrivateSubnet1Subnet6DD86AE6",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "NetworkVpcPrivateSubnet1Subnet6DD86AE6": {
       "Properties": {
         "AvailabilityZone": {
           "Fn::Select": [
@@ -118,41 +118,41 @@ exports[`Snapshot 1`] = `
           },
           {
             "Key": "Name",
-            "Value": "test/Vpc/PrivateSubnet1",
+            "Value": "test/Network/Vpc/PrivateSubnet1",
           },
         ],
         "VpcId": {
-          "Ref": "Vpc8378EB38",
+          "Ref": "NetworkVpc7FB7348F",
         },
       },
       "Type": "AWS::EC2::Subnet",
     },
-    "VpcPrivateSubnet2RouteTableA678073B": {
-      "Properties": {
-        "Tags": [
-          {
-            "Key": "Name",
-            "Value": "test/Vpc/PrivateSubnet2",
-          },
-        ],
-        "VpcId": {
-          "Ref": "Vpc8378EB38",
-        },
-      },
-      "Type": "AWS::EC2::RouteTable",
-    },
-    "VpcPrivateSubnet2RouteTableAssociationA89CAD56": {
+    "NetworkVpcPrivateSubnet2RouteTableAssociation89A2F1E8": {
       "Properties": {
         "RouteTableId": {
-          "Ref": "VpcPrivateSubnet2RouteTableA678073B",
+          "Ref": "NetworkVpcPrivateSubnet2RouteTableC48862D1",
         },
         "SubnetId": {
-          "Ref": "VpcPrivateSubnet2Subnet3788AAA1",
+          "Ref": "NetworkVpcPrivateSubnet2Subnet1BDBE877",
         },
       },
       "Type": "AWS::EC2::SubnetRouteTableAssociation",
     },
-    "VpcPrivateSubnet2Subnet3788AAA1": {
+    "NetworkVpcPrivateSubnet2RouteTableC48862D1": {
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "test/Network/Vpc/PrivateSubnet2",
+          },
+        ],
+        "VpcId": {
+          "Ref": "NetworkVpc7FB7348F",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "NetworkVpcPrivateSubnet2Subnet1BDBE877": {
       "Properties": {
         "AvailabilityZone": {
           "Fn::Select": [
@@ -175,41 +175,41 @@ exports[`Snapshot 1`] = `
           },
           {
             "Key": "Name",
-            "Value": "test/Vpc/PrivateSubnet2",
+            "Value": "test/Network/Vpc/PrivateSubnet2",
           },
         ],
         "VpcId": {
-          "Ref": "Vpc8378EB38",
+          "Ref": "NetworkVpc7FB7348F",
         },
       },
       "Type": "AWS::EC2::Subnet",
     },
-    "VpcProtectedSubnet1RouteTable69FCECD8": {
+    "NetworkVpcProtectedSubnet1RouteTable483028AB": {
       "Properties": {
         "Tags": [
           {
             "Key": "Name",
-            "Value": "test/Vpc/ProtectedSubnet1",
+            "Value": "test/Network/Vpc/ProtectedSubnet1",
           },
         ],
         "VpcId": {
-          "Ref": "Vpc8378EB38",
+          "Ref": "NetworkVpc7FB7348F",
         },
       },
       "Type": "AWS::EC2::RouteTable",
     },
-    "VpcProtectedSubnet1RouteTableAssociation62F625F2": {
+    "NetworkVpcProtectedSubnet1RouteTableAssociationC3011695": {
       "Properties": {
         "RouteTableId": {
-          "Ref": "VpcProtectedSubnet1RouteTable69FCECD8",
+          "Ref": "NetworkVpcProtectedSubnet1RouteTable483028AB",
         },
         "SubnetId": {
-          "Ref": "VpcProtectedSubnet1Subnet38ECE18A",
+          "Ref": "NetworkVpcProtectedSubnet1Subnet3489B8A9",
         },
       },
       "Type": "AWS::EC2::SubnetRouteTableAssociation",
     },
-    "VpcProtectedSubnet1Subnet38ECE18A": {
+    "NetworkVpcProtectedSubnet1Subnet3489B8A9": {
       "Properties": {
         "AvailabilityZone": {
           "Fn::Select": [
@@ -232,41 +232,41 @@ exports[`Snapshot 1`] = `
           },
           {
             "Key": "Name",
-            "Value": "test/Vpc/ProtectedSubnet1",
+            "Value": "test/Network/Vpc/ProtectedSubnet1",
           },
         ],
         "VpcId": {
-          "Ref": "Vpc8378EB38",
+          "Ref": "NetworkVpc7FB7348F",
         },
       },
       "Type": "AWS::EC2::Subnet",
     },
-    "VpcProtectedSubnet2RouteTableAssociation960FE2AC": {
-      "Properties": {
-        "RouteTableId": {
-          "Ref": "VpcProtectedSubnet2RouteTableFA54AE0B",
-        },
-        "SubnetId": {
-          "Ref": "VpcProtectedSubnet2SubnetC22C3325",
-        },
-      },
-      "Type": "AWS::EC2::SubnetRouteTableAssociation",
-    },
-    "VpcProtectedSubnet2RouteTableFA54AE0B": {
+    "NetworkVpcProtectedSubnet2RouteTable2FC531EB": {
       "Properties": {
         "Tags": [
           {
             "Key": "Name",
-            "Value": "test/Vpc/ProtectedSubnet2",
+            "Value": "test/Network/Vpc/ProtectedSubnet2",
           },
         ],
         "VpcId": {
-          "Ref": "Vpc8378EB38",
+          "Ref": "NetworkVpc7FB7348F",
         },
       },
       "Type": "AWS::EC2::RouteTable",
     },
-    "VpcProtectedSubnet2SubnetC22C3325": {
+    "NetworkVpcProtectedSubnet2RouteTableAssociation2B591BC3": {
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "NetworkVpcProtectedSubnet2RouteTable2FC531EB",
+        },
+        "SubnetId": {
+          "Ref": "NetworkVpcProtectedSubnet2SubnetB311854E",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "NetworkVpcProtectedSubnet2SubnetB311854E": {
       "Properties": {
         "AvailabilityZone": {
           "Fn::Select": [
@@ -289,56 +289,56 @@ exports[`Snapshot 1`] = `
           },
           {
             "Key": "Name",
-            "Value": "test/Vpc/ProtectedSubnet2",
+            "Value": "test/Network/Vpc/ProtectedSubnet2",
           },
         ],
         "VpcId": {
-          "Ref": "Vpc8378EB38",
+          "Ref": "NetworkVpc7FB7348F",
         },
       },
       "Type": "AWS::EC2::Subnet",
     },
-    "VpcPublicSubnet1DefaultRoute3DA9E72A": {
+    "NetworkVpcPublicSubnet1DefaultRoute31EC04EC": {
       "DependsOn": [
-        "VpcVPCGWBF912B6E",
+        "NetworkVpcVPCGW8F3799B5",
       ],
       "Properties": {
         "DestinationCidrBlock": "0.0.0.0/0",
         "GatewayId": {
-          "Ref": "VpcIGWD7BA715C",
+          "Ref": "NetworkVpcIGW6BEA7B02",
         },
         "RouteTableId": {
-          "Ref": "VpcPublicSubnet1RouteTable6C95E38E",
+          "Ref": "NetworkVpcPublicSubnet1RouteTable30235CE2",
         },
       },
       "Type": "AWS::EC2::Route",
     },
-    "VpcPublicSubnet1RouteTable6C95E38E": {
+    "NetworkVpcPublicSubnet1RouteTable30235CE2": {
       "Properties": {
         "Tags": [
           {
             "Key": "Name",
-            "Value": "test/Vpc/PublicSubnet1",
+            "Value": "test/Network/Vpc/PublicSubnet1",
           },
         ],
         "VpcId": {
-          "Ref": "Vpc8378EB38",
+          "Ref": "NetworkVpc7FB7348F",
         },
       },
       "Type": "AWS::EC2::RouteTable",
     },
-    "VpcPublicSubnet1RouteTableAssociation97140677": {
+    "NetworkVpcPublicSubnet1RouteTableAssociation643926C7": {
       "Properties": {
         "RouteTableId": {
-          "Ref": "VpcPublicSubnet1RouteTable6C95E38E",
+          "Ref": "NetworkVpcPublicSubnet1RouteTable30235CE2",
         },
         "SubnetId": {
-          "Ref": "VpcPublicSubnet1Subnet5C2D37C4",
+          "Ref": "NetworkVpcPublicSubnet1Subnet36933139",
         },
       },
       "Type": "AWS::EC2::SubnetRouteTableAssociation",
     },
-    "VpcPublicSubnet1Subnet5C2D37C4": {
+    "NetworkVpcPublicSubnet1Subnet36933139": {
       "Properties": {
         "AvailabilityZone": {
           "Fn::Select": [
@@ -361,56 +361,56 @@ exports[`Snapshot 1`] = `
           },
           {
             "Key": "Name",
-            "Value": "test/Vpc/PublicSubnet1",
+            "Value": "test/Network/Vpc/PublicSubnet1",
           },
         ],
         "VpcId": {
-          "Ref": "Vpc8378EB38",
+          "Ref": "NetworkVpc7FB7348F",
         },
       },
       "Type": "AWS::EC2::Subnet",
     },
-    "VpcPublicSubnet2DefaultRoute97F91067": {
+    "NetworkVpcPublicSubnet2DefaultRoute0CF082AB": {
       "DependsOn": [
-        "VpcVPCGWBF912B6E",
+        "NetworkVpcVPCGW8F3799B5",
       ],
       "Properties": {
         "DestinationCidrBlock": "0.0.0.0/0",
         "GatewayId": {
-          "Ref": "VpcIGWD7BA715C",
+          "Ref": "NetworkVpcIGW6BEA7B02",
         },
         "RouteTableId": {
-          "Ref": "VpcPublicSubnet2RouteTable94F7E489",
+          "Ref": "NetworkVpcPublicSubnet2RouteTable0FACEBB2",
         },
       },
       "Type": "AWS::EC2::Route",
     },
-    "VpcPublicSubnet2RouteTable94F7E489": {
+    "NetworkVpcPublicSubnet2RouteTable0FACEBB2": {
       "Properties": {
         "Tags": [
           {
             "Key": "Name",
-            "Value": "test/Vpc/PublicSubnet2",
+            "Value": "test/Network/Vpc/PublicSubnet2",
           },
         ],
         "VpcId": {
-          "Ref": "Vpc8378EB38",
+          "Ref": "NetworkVpc7FB7348F",
         },
       },
       "Type": "AWS::EC2::RouteTable",
     },
-    "VpcPublicSubnet2RouteTableAssociationDD5762D8": {
+    "NetworkVpcPublicSubnet2RouteTableAssociationC662643B": {
       "Properties": {
         "RouteTableId": {
-          "Ref": "VpcPublicSubnet2RouteTable94F7E489",
+          "Ref": "NetworkVpcPublicSubnet2RouteTable0FACEBB2",
         },
         "SubnetId": {
-          "Ref": "VpcPublicSubnet2Subnet691E08A3",
+          "Ref": "NetworkVpcPublicSubnet2SubnetC427CCE0",
         },
       },
       "Type": "AWS::EC2::SubnetRouteTableAssociation",
     },
-    "VpcPublicSubnet2Subnet691E08A3": {
+    "NetworkVpcPublicSubnet2SubnetC427CCE0": {
       "Properties": {
         "AvailabilityZone": {
           "Fn::Select": [
@@ -433,22 +433,22 @@ exports[`Snapshot 1`] = `
           },
           {
             "Key": "Name",
-            "Value": "test/Vpc/PublicSubnet2",
+            "Value": "test/Network/Vpc/PublicSubnet2",
           },
         ],
         "VpcId": {
-          "Ref": "Vpc8378EB38",
+          "Ref": "NetworkVpc7FB7348F",
         },
       },
       "Type": "AWS::EC2::Subnet",
     },
-    "VpcVPCGWBF912B6E": {
+    "NetworkVpcVPCGW8F3799B5": {
       "Properties": {
         "InternetGatewayId": {
-          "Ref": "VpcIGWD7BA715C",
+          "Ref": "NetworkVpcIGW6BEA7B02",
         },
         "VpcId": {
-          "Ref": "Vpc8378EB38",
+          "Ref": "NetworkVpc7FB7348F",
         },
       },
       "Type": "AWS::EC2::VPCGatewayAttachment",
