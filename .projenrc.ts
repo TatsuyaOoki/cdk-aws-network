@@ -57,14 +57,29 @@ Edit **.env** and set your AWS Account and Region:
 "CDK_DEPLOY_REGION=ap-northeast-1",
 \`\`\`
 
+Enter value in devParameter in src/parameter.ts
+\`\`\`sh
+envName: 'Production',
+repository: 'TatsuyaOoki/cdk-project',
+projectName: 'xxxxx',
+\`\`\`
+
+
+### Build and tests
+\`\`\`sh
+npx projen build
+\`\`\`
+
+### Update Snapshots
+If you made changes to the CDK stack and need to update the snapshot tests, run:
+\`\`\`sh
+npx projen test -u
+\`\`\`
+This will regenerate the snapshot files based on the current CDK template.
+
 ### Deploy the stack
 \`\`\`sh
 npx projen deploy
-\`\`\`
-
-### Run tests
-\`\`\`sh
-npm test
 \`\`\`
 
 ## 🎯 About Projen
@@ -77,7 +92,7 @@ This project is managed using **Projen**, which automates dependency management,
 - \`npx projen deploy\`: Deploy the CDK stack
 - \`npx projen destroy\`: Destroy the deployed stack
 
-`
+`,
   },
 });
 
