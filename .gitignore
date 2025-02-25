@@ -30,6 +30,7 @@ jspm_packages/
 *.tgz
 .yarn-integrity
 .cache
+.env
 /test-reports/
 junit.xml
 /coverage/
@@ -49,5 +50,4 @@ junit.xml
 /cdk.out/
 .cdk.staging/
 .parcel-cache/
-.env
 !/.projenrc.ts

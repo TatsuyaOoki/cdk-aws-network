@@ -13,7 +13,9 @@ const project = new awscdk.AwsCdkTypeScriptApp({
   devDeps: [
     'dotenv',
   ],
+  gitignore: [
+    '.env',
+  ],
 });
 
-project.addGitIgnore('.env');
 project.synth();
