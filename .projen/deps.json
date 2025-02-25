@@ -29,6 +29,10 @@
       "type": "build"
     },
     {
+      "name": "dotenv",
+      "type": "build"
+    },
+    {
       "name": "esbuild",
       "type": "build"
     },
@@ -78,10 +82,6 @@
     {
       "name": "constructs",
       "version": "^10.0.5",
-      "type": "runtime"
-    },
-    {
-      "name": "dotenv",
       "type": "runtime"
     }
   ],

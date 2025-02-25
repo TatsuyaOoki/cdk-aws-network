@@ -30,6 +30,7 @@
     "@typescript-eslint/eslint-plugin": "^8",
     "@typescript-eslint/parser": "^8",
     "aws-cdk": "^2",
+    "dotenv": "^16.4.7",
     "esbuild": "^0.25.0",
     "eslint": "^9",
     "eslint-import-resolver-typescript": "^3.8.0",
@@ -43,8 +44,7 @@
   },
   "dependencies": {
     "aws-cdk-lib": "^2.1.0",
-    "constructs": "^10.0.5",
-    "dotenv": "^16.4.7"
+    "constructs": "^10.0.5"
   },
   "license": "Apache-2.0",
   "publishConfig": {
