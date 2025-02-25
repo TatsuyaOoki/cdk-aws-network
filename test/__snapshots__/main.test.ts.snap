@@ -29,62 +29,20 @@ exports[`Snapshot 1`] = `
     "EicSg99B0C901": {
       "Properties": {
         "GroupDescription": "test/EicSg",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "255.255.255.255/32",
+            "Description": "Disallow all traffic",
+            "FromPort": 252,
+            "IpProtocol": "icmp",
+            "ToPort": 86,
+          },
+        ],
         "VpcId": {
           "Ref": "Vpc8378EB38",
         },
       },
       "Type": "AWS::EC2::SecurityGroup",
-    },
-    "EicSgtotestlinuxSg5B6C2C9A22257BFA27": {
-      "Properties": {
-        "Description": "to testlinuxSg5B6C2C9A:22",
-        "DestinationSecurityGroupId": {
-          "Fn::GetAtt": [
-            "linuxSgCD8FFCF2",
-            "GroupId",
-          ],
-        },
-        "FromPort": 22,
-        "GroupId": {
-          "Fn::GetAtt": [
-            "EicSg99B0C901",
-            "GroupId",
-          ],
-        },
-        "IpProtocol": "tcp",
-        "ToPort": 22,
-      },
-      "Type": "AWS::EC2::SecurityGroupEgress",
-    },
-    "InstanceRole3CCE2F1D": {
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Statement": [
-            {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": {
-                "Service": "ec2.amazonaws.com",
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "ManagedPolicyArns": [
-          "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore",
-          "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy",
-        ],
-        "Path": "/",
-      },
-      "Type": "AWS::IAM::Role",
-    },
-    "KeyPair1622897B": {
-      "Properties": {
-        "KeyFormat": "pem",
-        "KeyName": "testKeyPair9B2E483F",
-        "KeyType": "rsa",
-      },
-      "Type": "AWS::EC2::KeyPair",
     },
     "Vpc8378EB38": {
       "Properties": {
@@ -139,7 +97,14 @@ exports[`Snapshot 1`] = `
     },
     "VpcPrivateSubnet1Subnet536B997A": {
       "Properties": {
-        "AvailabilityZone": "dummy1a",
+        "AvailabilityZone": {
+          "Fn::Select": [
+            0,
+            {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
         "CidrBlock": "10.0.2.0/24",
         "MapPublicIpOnLaunch": false,
         "Tags": [
@@ -189,7 +154,14 @@ exports[`Snapshot 1`] = `
     },
     "VpcPrivateSubnet2Subnet3788AAA1": {
       "Properties": {
-        "AvailabilityZone": "dummy1b",
+        "AvailabilityZone": {
+          "Fn::Select": [
+            1,
+            {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
         "CidrBlock": "10.0.3.0/24",
         "MapPublicIpOnLaunch": false,
         "Tags": [
@@ -239,7 +211,14 @@ exports[`Snapshot 1`] = `
     },
     "VpcProtectedSubnet1Subnet38ECE18A": {
       "Properties": {
-        "AvailabilityZone": "dummy1a",
+        "AvailabilityZone": {
+          "Fn::Select": [
+            0,
+            {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
         "CidrBlock": "10.0.4.0/24",
         "MapPublicIpOnLaunch": false,
         "Tags": [
@@ -289,7 +268,14 @@ exports[`Snapshot 1`] = `
     },
     "VpcProtectedSubnet2SubnetC22C3325": {
       "Properties": {
-        "AvailabilityZone": "dummy1b",
+        "AvailabilityZone": {
+          "Fn::Select": [
+            1,
+            {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
         "CidrBlock": "10.0.5.0/24",
         "MapPublicIpOnLaunch": false,
         "Tags": [
@@ -354,7 +340,14 @@ exports[`Snapshot 1`] = `
     },
     "VpcPublicSubnet1Subnet5C2D37C4": {
       "Properties": {
-        "AvailabilityZone": "dummy1a",
+        "AvailabilityZone": {
+          "Fn::Select": [
+            0,
+            {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
         "CidrBlock": "10.0.0.0/24",
         "MapPublicIpOnLaunch": true,
         "Tags": [
@@ -419,7 +412,14 @@ exports[`Snapshot 1`] = `
     },
     "VpcPublicSubnet2Subnet691E08A3": {
       "Properties": {
-        "AvailabilityZone": "dummy1b",
+        "AvailabilityZone": {
+          "Fn::Select": [
+            1,
+            {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
         "CidrBlock": "10.0.1.0/24",
         "MapPublicIpOnLaunch": true,
         "Tags": [
@@ -452,114 +452,6 @@ exports[`Snapshot 1`] = `
         },
       },
       "Type": "AWS::EC2::VPCGatewayAttachment",
-    },
-    "linuxInstance20E5F5BB": {
-      "DependsOn": [
-        "InstanceRole3CCE2F1D",
-      ],
-      "Properties": {
-        "AvailabilityZone": "dummy1a",
-        "BlockDeviceMappings": [
-          {
-            "DeviceName": "/dev/xvda",
-            "Ebs": {
-              "Encrypted": true,
-              "VolumeSize": 20,
-              "VolumeType": "gp3",
-            },
-          },
-        ],
-        "IamInstanceProfile": {
-          "Ref": "linuxInstanceInstanceProfile2BE8914F",
-        },
-        "ImageId": "ami-1234",
-        "InstanceType": "t3.micro",
-        "KeyName": {
-          "Ref": "KeyPair1622897B",
-        },
-        "SecurityGroupIds": [
-          {
-            "Fn::GetAtt": [
-              "linuxSgCD8FFCF2",
-              "GroupId",
-            ],
-          },
-        ],
-        "SubnetId": {
-          "Ref": "VpcPublicSubnet1Subnet5C2D37C4",
-        },
-        "Tags": [
-          {
-            "Key": "Name",
-            "Value": "test/linuxInstance",
-          },
-        ],
-        "UserData": {
-          "Fn::Base64": "#!/bin/bash
-sudo dnf -y install httpd
-sudo echo "<h1>Hello from $(hostname)</h1>" > /var/www/html/index.html
-sudo chown apache:apache /var/www/html/index.html
-sudo systemctl enable httpd
-sudo systemctl start httpd",
-        },
-      },
-      "Type": "AWS::EC2::Instance",
-    },
-    "linuxInstanceInstanceProfile2BE8914F": {
-      "Properties": {
-        "Roles": [
-          {
-            "Ref": "InstanceRole3CCE2F1D",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::InstanceProfile",
-    },
-    "linuxSgCD8FFCF2": {
-      "Properties": {
-        "GroupDescription": "test/linuxSg",
-        "SecurityGroupEgress": [
-          {
-            "CidrIp": "0.0.0.0/0",
-            "Description": "Allow all outbound traffic by default",
-            "IpProtocol": "-1",
-          },
-        ],
-        "SecurityGroupIngress": [
-          {
-            "CidrIp": "0.0.0.0/0",
-            "Description": "from 0.0.0.0/0:80",
-            "FromPort": 80,
-            "IpProtocol": "tcp",
-            "ToPort": 80,
-          },
-        ],
-        "VpcId": {
-          "Ref": "Vpc8378EB38",
-        },
-      },
-      "Type": "AWS::EC2::SecurityGroup",
-    },
-    "linuxSgfromtestEicSg487B53AD22F5AEBE88": {
-      "Properties": {
-        "Description": "from testEicSg487B53AD:22",
-        "FromPort": 22,
-        "GroupId": {
-          "Fn::GetAtt": [
-            "linuxSgCD8FFCF2",
-            "GroupId",
-          ],
-        },
-        "IpProtocol": "tcp",
-        "SourceSecurityGroupId": {
-          "Fn::GetAtt": [
-            "EicSg99B0C901",
-            "GroupId",
-          ],
-        },
-        "ToPort": 22,
-      },
-      "Type": "AWS::EC2::SecurityGroupIngress",
     },
   },
   "Rules": {
