@@ -14,6 +14,6 @@ export class AppStack extends Stack {
       vpcCidr: props.vpcCidr,
     });
 
-    
+
   }
 }
