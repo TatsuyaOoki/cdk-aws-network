@@ -1,52 +1,56 @@
 import * as cdk from 'aws-cdk-lib';
+import { aws_ec2 as ec2, aws_iam as iam } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-import { aws_ec2 as ec2 } from 'aws-cdk-lib';
-import { aws_iam as iam } from 'aws-cdk-lib';
 
 export interface Ec2Props {
   vpc: ec2.IVpc;
-  eicSecurityGroup: ec2.ISecurityGroup;
 }
 
-export class Ec2Instance extends Construct {
-  public readonly linuxSg: ec2.ISecurityGroup;
-  public readonly windowsSg: ec2.ISecurityGroup;
+export class Ec2App extends Construct {
 
   constructor(scope: Construct, id: string, props: Ec2Props) {
     super(scope, id);
 
     const accountId = cdk.Stack.of(this).account;
-    const eicSg = props.eicSecurityGroup;
 
-
-    /* ============ Security Group ============ */
-  
-    // Security Group for Instance of linuxInstance
-    const linuxSg = new ec2.SecurityGroup(this, 'linuxSg', {
+    // ========= EC2 Instance Connect =============== //
+    const eicSecurityGroup = new ec2.SecurityGroup(this, 'EicSg', {
       vpc: props.vpc,
-      allowAllOutbound: true,
+      allowAllOutbound: true, //EIC Endopoint does not support connections as of 2025/3.
     });
-    this.linuxSg = linuxSg;
 
-
-   // Security Group for Instance of windowsInstance
-    const windowsSg = new ec2.SecurityGroup(this, 'windowsSg', {
-      vpc: props.vpc,
-      allowAllOutbound: true,
+    new ec2.CfnInstanceConnectEndpoint(this, 'Eic', {
+      subnetId: props.vpc.isolatedSubnets[0].subnetId,
+      securityGroupIds: [eicSecurityGroup.securityGroupId],
     });
-    this.windowsSg = windowsSg;
 
-    // Security Group Rules of linuxInstance
-    // linuxSg.addEgressRule(ec2.Peer.anyIpv4(), ec2.Port.allTcp());
-    linuxSg.addIngressRule(eicSg, ec2.Port.SSH);
+    //   /* ============ Security Group ============ */
 
-    // Security Group Rules of windowsInstance
-    windowsSg.addIngressRule(eicSg, ec2.Port.RDP);
+    //   // Security Group for Instance of linuxInstance
+    //   const linuxSg = new ec2.SecurityGroup(this, 'linuxSg', {
+    //     vpc: props.vpc,
+    //     allowAllOutbound: true,
+    //   });
+    //   this.linuxSg = linuxSg;
 
-    // Security Group Rules of EC2 Instance Connect
-    eicSg.addEgressRule(linuxSg, ec2.Port.SSH);
-    eicSg.addEgressRule(windowsSg, ec2.Port.RDP);
 
+    //  // Security Group for Instance of windowsInstance
+    //   const windowsSg = new ec2.SecurityGroup(this, 'windowsSg', {
+    //     vpc: props.vpc,
+    //     allowAllOutbound: true,
+    //   });
+    //   this.windowsSg = windowsSg;
+
+    //   // Security Group Rules of linuxInstance
+    //   // linuxSg.addEgressRule(ec2.Peer.anyIpv4(), ec2.Port.allTcp());
+    //   linuxSg.addIngressRule(eicSg, ec2.Port.SSH);
+
+    //   // Security Group Rules of windowsInstance
+    //   windowsSg.addIngressRule(eicSg, ec2.Port.RDP);
+
+    //   // Security Group Rules of EC2 Instance Connect
+    //   eicSg.addEgressRule(linuxSg, ec2.Port.SSH);
+    //   eicSg.addEgressRule(windowsSg, ec2.Port.RDP);
 
 
     /* ============ KeyPair ============ */
@@ -54,7 +58,7 @@ export class Ec2Instance extends Construct {
 
 
     /* ============ InstanceProfile ============ */
-    const InstanceRole = new iam.Role(this, 'InstanceRole', {
+    const instanceRole = new iam.Role(this, 'InstanceRole', {
       assumedBy: new iam.ServicePrincipal('ec2.amazonaws.com'),
       path: '/',
       managedPolicies: [
@@ -86,7 +90,7 @@ export class Ec2Instance extends Construct {
       owners: [
         'amazon',
         accountId,
-      ]
+      ],
     });
 
     // EC2 instance (Linux)
@@ -94,11 +98,10 @@ export class Ec2Instance extends Construct {
       vpc: props.vpc,
       instanceType: ec2.InstanceType.of(ec2.InstanceClass.T3, ec2.InstanceSize.MICRO),
       machineImage: linuxAmi,
-      role: InstanceRole,
+      role: instanceRole,
       vpcSubnets: {
         subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
       },
-      securityGroup: linuxSg,
       userData: linuxUserdata,
       keyPair: keyPair,
       blockDevices: [
@@ -113,6 +116,7 @@ export class Ec2Instance extends Construct {
     });
 
     linuxInstance.connections.allowFromAnyIpv4(ec2.Port.icmpPing());
+    linuxInstance.connections.allowFrom(eicSecurityGroup, ec2.Port.SSH);
 
 
     /* ============ EC2 Instance for Windows ============ */
@@ -151,5 +155,6 @@ export class Ec2Instance extends Construct {
     //     },
     //   ],
     // });
+
   }
 }
