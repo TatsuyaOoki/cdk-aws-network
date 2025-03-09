@@ -24,35 +24,7 @@ export class Ec2App extends Construct {
       securityGroupIds: [eicSecurityGroup.securityGroupId],
     });
 
-    //   /* ============ Security Group ============ */
-
-    //   // Security Group for Instance of linuxInstance
-    //   const linuxSg = new ec2.SecurityGroup(this, 'linuxSg', {
-    //     vpc: props.vpc,
-    //     allowAllOutbound: true,
-    //   });
-    //   this.linuxSg = linuxSg;
-
-
-    //  // Security Group for Instance of windowsInstance
-    //   const windowsSg = new ec2.SecurityGroup(this, 'windowsSg', {
-    //     vpc: props.vpc,
-    //     allowAllOutbound: true,
-    //   });
-    //   this.windowsSg = windowsSg;
-
-    //   // Security Group Rules of linuxInstance
-    //   // linuxSg.addEgressRule(ec2.Peer.anyIpv4(), ec2.Port.allTcp());
-    //   linuxSg.addIngressRule(eicSg, ec2.Port.SSH);
-
-    //   // Security Group Rules of windowsInstance
-    //   windowsSg.addIngressRule(eicSg, ec2.Port.RDP);
-
-    //   // Security Group Rules of EC2 Instance Connect
-    //   eicSg.addEgressRule(linuxSg, ec2.Port.SSH);
-    //   eicSg.addEgressRule(windowsSg, ec2.Port.RDP);
-
-
+    
     /* ============ KeyPair ============ */
     const keyPair = new ec2.KeyPair(this, 'KeyPair', {});
 
