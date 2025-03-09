@@ -17,6 +17,12 @@ const project = new awscdk.AwsCdkTypeScriptApp({
     '.env',
   ],
 
+  tsconfig: {
+    compilerOptions: {
+      noUnusedLocals: false,
+    },
+  },
+
   readme: {
     contents: `# CDK Project
 

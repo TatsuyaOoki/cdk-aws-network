@@ -7,7 +7,6 @@ export interface NetworkProps {
 
 export class Network extends Construct {
   public readonly vpc: ec2.IVpc;
-  public readonly eicSecurityGroup: ec2.ISecurityGroup;
 
   constructor(scope: Construct, id: string, props: NetworkProps) {
     super(scope, id);
@@ -38,18 +37,6 @@ export class Network extends Construct {
       ],
     });
     this.vpc = vpc;
-
-    // ========= EC2 Instance Connect =============== //
-    const eicSecurityGroup = new ec2.SecurityGroup(this, 'EicSg', {
-      vpc,
-      allowAllOutbound: false,
-    });
-
-    new ec2.CfnInstanceConnectEndpoint(this, 'Eic', {
-      subnetId: vpc.isolatedSubnets[0].subnetId,
-      securityGroupIds: [eicSecurityGroup.securityGroupId],
-    });
-    this.eicSecurityGroup = eicSecurityGroup;
 
   }
 }

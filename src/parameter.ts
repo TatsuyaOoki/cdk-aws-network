@@ -14,8 +14,8 @@ dotenv.config();
 
 export const devParameter: AppParameter = {
   env: {
-    account: process.env.CDK_PROD_ACCOUNT,
-    region: process.env.CDK_PROD_REGION,
+    account: process.env.CDK_DEPLOY_ACCOUNT,
+    region: process.env.CDK_DEPLOY_REGION,
   },
   envName: 'Develop',
   repository: 'TatsuyaOoki/cdk-aws-network',
