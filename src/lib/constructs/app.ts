@@ -1,5 +1,6 @@
 import * as cdk from 'aws-cdk-lib';
 import { aws_ec2 as ec2, aws_iam as iam } from 'aws-cdk-lib';
+import { IInstance } from 'aws-cdk-lib/aws-ec2';
 import { Construct } from 'constructs';
 
 export interface Ec2Props {
@@ -7,6 +8,8 @@ export interface Ec2Props {
 }
 
 export class Ec2App extends Construct {
+  public readonly linuxinstance: IInstance;
+  // public readonly windowsinstance: IInstance;
 
   constructor(scope: Construct, id: string, props: Ec2Props) {
     super(scope, id);
@@ -24,7 +27,7 @@ export class Ec2App extends Construct {
       securityGroupIds: [eicSecurityGroup.securityGroupId],
     });
 
-    
+
     /* ============ KeyPair ============ */
     const keyPair = new ec2.KeyPair(this, 'KeyPair', {});
 
@@ -90,6 +93,8 @@ export class Ec2App extends Construct {
     linuxInstance.connections.allowFromAnyIpv4(ec2.Port.allIcmp());
     linuxInstance.connections.allowFrom(eicSecurityGroup, ec2.Port.SSH);
 
+    this.linuxinstance = linuxInstance;
+
 
     /* ============ EC2 Instance for Windows ============ */
 
@@ -128,5 +133,6 @@ export class Ec2App extends Construct {
     //   ],
     // });
 
+    // this.linuxinstance = windowsInstance;
   }
 }
