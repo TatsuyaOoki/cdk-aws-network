@@ -115,7 +115,7 @@ export class Ec2App extends Construct {
       ],
     });
 
-    linuxInstance.connections.allowFromAnyIpv4(ec2.Port.icmpPing());
+    linuxInstance.connections.allowFromAnyIpv4(ec2.Port.allIcmp());
     linuxInstance.connections.allowFrom(eicSecurityGroup, ec2.Port.SSH);
 
 
