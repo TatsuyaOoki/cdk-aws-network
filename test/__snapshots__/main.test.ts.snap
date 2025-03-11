@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Snapshot 1`] = `
+exports[`AppStackTest Snapshot 1`] = `
 {
   "Parameters": {
     "BootstrapVersion": {
@@ -73,7 +73,14 @@ exports[`Snapshot 1`] = `
         "Family": "mysql8.0",
         "Parameters": {
           "character_set_client": "utf8mb4",
-          "timezone": "Asia/Tokyo",
+          "character_set_connection": "utf8mb4",
+          "character_set_database": "utf8mb4",
+          "character_set_results": "utf8mb4",
+          "character_set_server": "utf8mb4",
+          "collation_connection": "utf8mb4_general_ci",
+          "collation_server": "utf8mb4_general_ci",
+          "innodb_purge_threads": "4",
+          "time_zone": "Asia/Tokyo",
         },
       },
       "Type": "AWS::RDS::DBParameterGroup",
@@ -130,9 +137,9 @@ exports[`Snapshot 1`] = `
       },
       "Type": "AWS::EC2::SecurityGroup",
     },
-    "DataAppRdsInstanceSecurityGroupfromtestEc2ApplinuxInstanceInstanceSecurityGroup8709733D3306D2A0A897": {
+    "DataAppRdsInstanceSecurityGroupfromAppStackEc2ApplinuxInstanceInstanceSecurityGroup9B4566173306C5D1D3F6": {
       "Properties": {
-        "Description": "from testEc2ApplinuxInstanceInstanceSecurityGroup8709733D:3306",
+        "Description": "from AppStackEc2ApplinuxInstanceInstanceSecurityGroup9B456617:3306",
         "FromPort": 3306,
         "GroupId": {
           "Fn::GetAtt": [
@@ -183,7 +190,7 @@ exports[`Snapshot 1`] = `
     },
     "Ec2AppEicSg35A800DC": {
       "Properties": {
-        "GroupDescription": "test/Ec2App/EicSg",
+        "GroupDescription": "AppStack/Ec2App/EicSg",
         "SecurityGroupEgress": [
           {
             "CidrIp": "0.0.0.0/0",
@@ -222,7 +229,7 @@ exports[`Snapshot 1`] = `
     "Ec2AppKeyPairE6956868": {
       "Properties": {
         "KeyFormat": "pem",
-        "KeyName": "testEc2AppKeyPair003D5C3F",
+        "KeyName": "AppStackEc2AppKeyPair7E6F99A6",
         "KeyType": "rsa",
       },
       "Type": "AWS::EC2::KeyPair",
@@ -265,7 +272,7 @@ exports[`Snapshot 1`] = `
         "Tags": [
           {
             "Key": "Name",
-            "Value": "test/Ec2App/linuxInstance",
+            "Value": "AppStack/Ec2App/linuxInstance",
           },
         ],
         "UserData": {
@@ -291,7 +298,7 @@ sudo systemctl start httpd",
     },
     "Ec2ApplinuxInstanceInstanceSecurityGroup3481696A": {
       "Properties": {
-        "GroupDescription": "test/Ec2App/linuxInstance/InstanceSecurityGroup",
+        "GroupDescription": "AppStack/Ec2App/linuxInstance/InstanceSecurityGroup",
         "SecurityGroupEgress": [
           {
             "CidrIp": "0.0.0.0/0",
@@ -311,7 +318,7 @@ sudo systemctl start httpd",
         "Tags": [
           {
             "Key": "Name",
-            "Value": "test/Ec2App/linuxInstance",
+            "Value": "AppStack/Ec2App/linuxInstance",
           },
         ],
         "VpcId": {
@@ -320,9 +327,9 @@ sudo systemctl start httpd",
       },
       "Type": "AWS::EC2::SecurityGroup",
     },
-    "Ec2ApplinuxInstanceInstanceSecurityGroupfromtestEc2AppEicSg7A0F1624226AB22D9E": {
+    "Ec2ApplinuxInstanceInstanceSecurityGroupfromAppStackEc2AppEicSg2FA6E47C22281F0DFD": {
       "Properties": {
-        "Description": "from testEc2AppEicSg7A0F1624:22",
+        "Description": "from AppStackEc2AppEicSg2FA6E47C:22",
         "FromPort": 22,
         "GroupId": {
           "Fn::GetAtt": [
@@ -350,7 +357,7 @@ sudo systemctl start httpd",
         "Tags": [
           {
             "Key": "Name",
-            "Value": "test/Network/Vpc",
+            "Value": "AppStack/Network/Vpc",
           },
         ],
       },
@@ -361,7 +368,7 @@ sudo systemctl start httpd",
         "Tags": [
           {
             "Key": "Name",
-            "Value": "test/Network/Vpc",
+            "Value": "AppStack/Network/Vpc",
           },
         ],
       },
@@ -372,7 +379,7 @@ sudo systemctl start httpd",
         "Tags": [
           {
             "Key": "Name",
-            "Value": "test/Network/Vpc/PrivateSubnet1",
+            "Value": "AppStack/Network/Vpc/PrivateSubnet1",
           },
         ],
         "VpcId": {
@@ -408,7 +415,7 @@ sudo systemctl start httpd",
           },
           {
             "Key": "Name",
-            "Value": "test/Network/Vpc/PrivateSubnet1",
+            "Value": "AppStack/Network/Vpc/PrivateSubnet1",
           },
         ],
         "VpcId": {
@@ -433,7 +440,7 @@ sudo systemctl start httpd",
         "Tags": [
           {
             "Key": "Name",
-            "Value": "test/Network/Vpc/PrivateSubnet2",
+            "Value": "AppStack/Network/Vpc/PrivateSubnet2",
           },
         ],
         "VpcId": {
@@ -458,7 +465,7 @@ sudo systemctl start httpd",
           },
           {
             "Key": "Name",
-            "Value": "test/Network/Vpc/PrivateSubnet2",
+            "Value": "AppStack/Network/Vpc/PrivateSubnet2",
           },
         ],
         "VpcId": {
@@ -472,7 +479,7 @@ sudo systemctl start httpd",
         "Tags": [
           {
             "Key": "Name",
-            "Value": "test/Network/Vpc/ProtectedSubnet1",
+            "Value": "AppStack/Network/Vpc/ProtectedSubnet1",
           },
         ],
         "VpcId": {
@@ -508,7 +515,7 @@ sudo systemctl start httpd",
           },
           {
             "Key": "Name",
-            "Value": "test/Network/Vpc/ProtectedSubnet1",
+            "Value": "AppStack/Network/Vpc/ProtectedSubnet1",
           },
         ],
         "VpcId": {
@@ -522,7 +529,7 @@ sudo systemctl start httpd",
         "Tags": [
           {
             "Key": "Name",
-            "Value": "test/Network/Vpc/ProtectedSubnet2",
+            "Value": "AppStack/Network/Vpc/ProtectedSubnet2",
           },
         ],
         "VpcId": {
@@ -558,7 +565,7 @@ sudo systemctl start httpd",
           },
           {
             "Key": "Name",
-            "Value": "test/Network/Vpc/ProtectedSubnet2",
+            "Value": "AppStack/Network/Vpc/ProtectedSubnet2",
           },
         ],
         "VpcId": {
@@ -587,7 +594,7 @@ sudo systemctl start httpd",
         "Tags": [
           {
             "Key": "Name",
-            "Value": "test/Network/Vpc/PublicSubnet1",
+            "Value": "AppStack/Network/Vpc/PublicSubnet1",
           },
         ],
         "VpcId": {
@@ -623,7 +630,7 @@ sudo systemctl start httpd",
           },
           {
             "Key": "Name",
-            "Value": "test/Network/Vpc/PublicSubnet1",
+            "Value": "AppStack/Network/Vpc/PublicSubnet1",
           },
         ],
         "VpcId": {
@@ -652,7 +659,7 @@ sudo systemctl start httpd",
         "Tags": [
           {
             "Key": "Name",
-            "Value": "test/Network/Vpc/PublicSubnet2",
+            "Value": "AppStack/Network/Vpc/PublicSubnet2",
           },
         ],
         "VpcId": {
@@ -688,7 +695,7 @@ sudo systemctl start httpd",
           },
           {
             "Key": "Name",
-            "Value": "test/Network/Vpc/PublicSubnet2",
+            "Value": "AppStack/Network/Vpc/PublicSubnet2",
           },
         ],
         "VpcId": {
