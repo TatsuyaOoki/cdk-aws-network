@@ -1,6 +1,7 @@
 import { Stack, StackProps } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { Ec2App } from '../constructs/app';
+import { DataApp } from '../constructs/data';
 import { Network } from '../constructs/network';
 
 export interface AppStackProps extends StackProps {
@@ -15,10 +16,14 @@ export class AppStack extends Stack {
       vpcCidr: props.vpcCidr,
     });
 
-    new Ec2App(this, 'Ec2App', {
+    const app = new Ec2App(this, 'Ec2App', {
       vpc: networking.vpc,
     });
 
+    new DataApp(this, 'DataApp', {
+      vpc: networking.vpc,
+      instance: app.linuxinstance,
+    });
 
   }
 }
