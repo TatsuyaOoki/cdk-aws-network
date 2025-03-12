@@ -14,6 +14,12 @@ exports[`AppStackTest Snapshot 1`] = `
       "DeletionPolicy": "Snapshot",
       "Properties": {
         "AllocatedStorage": "20",
+        "AvailabilityZone": {
+          "Fn::GetAtt": [
+            "Ec2ApplinuxInstance9ED8C3EE",
+            "AvailabilityZone",
+          ],
+        },
         "BackupRetentionPeriod": 1,
         "CopyTagsToSnapshot": true,
         "DBInstanceClass": "db.t3.micro",
