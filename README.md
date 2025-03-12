@@ -2,7 +2,7 @@
 
 This is an AWS CDK project managed using **Projen**.
 By default, the configuration is as follows.
-<img width="450" alt="AWS Configuration Diagram" src="https://github.com/user-attachments/assets/61f73799-edcc-45a3-a69a-42dc8f9e2f8e">
+<img width="600" alt="AWS Configuration Diagram" src="https://github.com/user-attachments/assets/61f73799-edcc-45a3-a69a-42dc8f9e2f8e">
 
 ## 📢 Important: Do Not Edit Managed Files Manually
 This project is configured using **Projen**, which automates dependency management and file generation.
