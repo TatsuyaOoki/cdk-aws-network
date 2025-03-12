@@ -21,6 +21,7 @@ export class DataApp extends Construct {
       engine: rds.DatabaseInstanceEngine.mysql({
         version: rds.MysqlEngineVersion.VER_8_0_40,
       }),
+      availabilityZone: props.instance.instanceAvailabilityZone,
       vpc: props.vpc,
       instanceType: ec2.InstanceType.of(ec2.InstanceClass.T3, ec2.InstanceSize.MICRO),
       allocatedStorage: 20,
