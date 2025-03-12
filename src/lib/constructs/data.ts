@@ -23,15 +23,15 @@ export class DataApp extends Construct {
       }),
       availabilityZone: props.instance.instanceAvailabilityZone,
       vpc: props.vpc,
+      vpcSubnets: {
+        subnetType: ec2.SubnetType.PRIVATE_ISOLATED,
+      },
       instanceType: ec2.InstanceType.of(ec2.InstanceClass.T3, ec2.InstanceSize.MICRO),
       allocatedStorage: 20,
       storageType: rds.StorageType.GP2,
       storageEncrypted: true,
       multiAz: false,
       publiclyAccessible: false,
-      vpcSubnets: {
-        subnetType: ec2.SubnetType.PRIVATE_ISOLATED,
-      },
       parameters: {
         character_set_client: 'utf8mb4',
         character_set_connection: 'utf8mb4',
