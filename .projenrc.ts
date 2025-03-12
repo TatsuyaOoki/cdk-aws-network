@@ -87,7 +87,7 @@ npx projen build
 ### Update Snapshots
 If you made changes to the CDK stack and need to update the snapshot tests, run:
 \`\`\`sh
-npx projen test -u
+npx projen test:update
 \`\`\`
 This will regenerate the snapshot files based on the current CDK template.
 
