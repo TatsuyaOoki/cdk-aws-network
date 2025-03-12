@@ -1,4 +1,5 @@
 import { awscdk } from 'projen';
+import { UpdateSnapshot } from 'projen/lib/javascript';
 const project = new awscdk.AwsCdkTypeScriptApp({
   cdkVersion: '2.1.0',
   defaultReleaseBranch: 'main',
@@ -21,6 +22,10 @@ const project = new awscdk.AwsCdkTypeScriptApp({
     compilerOptions: {
       noUnusedLocals: false,
     },
+  },
+
+  jestOptions: {
+    updateSnapshot: UpdateSnapshot.NEVER,
   },
 
   readme: {
