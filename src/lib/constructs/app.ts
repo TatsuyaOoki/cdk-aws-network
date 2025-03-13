@@ -51,7 +51,7 @@ export class Ec2App extends Construct {
     const linuxUserdata = ec2.UserData.forLinux({ shebang: '#!/bin/bash' });
     linuxUserdata.addCommands(
       'sudo dnf -y install httpd',
-      'sudo echo "<h1>Hello from $(hostname)</h1>" > /var/www/html/index.html',
+      'echo "<h1>Hello from $(hostname)</h1>" | sudo tee /var/www/html/index.html > /dev/null',
       'sudo chown apache:apache /var/www/html/index.html',
       'sudo systemctl enable httpd',
       'sudo systemctl start httpd',
