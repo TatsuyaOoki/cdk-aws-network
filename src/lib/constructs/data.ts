@@ -18,6 +18,7 @@ export class DataApp extends Construct {
 
     // ========= RDS Instance =============== //
     const rdsInstance = new rds.DatabaseInstance(this, 'RdsInstance', {
+      removalPolicy: cdk.RemovalPolicy.DESTROY, // default: SNAPSHOT
       engine: rds.DatabaseInstanceEngine.mysql({
         version: rds.MysqlEngineVersion.VER_8_0_40,
       }),
