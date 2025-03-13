@@ -152,7 +152,7 @@ export class Ec2App extends Construct {
       open: true,
     });
 
-    const albTargetGroup = albListener.addTargets('AlbTargets', {
+    albListener.addTargets('AlbTargets', {
       targets: [
         new elbv2targets.InstanceTarget(linuxInstance, 80),
       ],
