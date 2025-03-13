@@ -11,7 +11,7 @@ exports[`AppStackTest Snapshot 1`] = `
   },
   "Resources": {
     "DataAppRdsInstance0271E82E": {
-      "DeletionPolicy": "Snapshot",
+      "DeletionPolicy": "Delete",
       "Properties": {
         "AllocatedStorage": "20",
         "AvailabilityZone": {
@@ -71,7 +71,7 @@ exports[`AppStackTest Snapshot 1`] = `
         ],
       },
       "Type": "AWS::RDS::DBInstance",
-      "UpdateReplacePolicy": "Snapshot",
+      "UpdateReplacePolicy": "Delete",
     },
     "DataAppRdsInstanceParameterGroup8A2AB451": {
       "Properties": {
@@ -177,6 +177,124 @@ exports[`AppStackTest Snapshot 1`] = `
         ],
       },
       "Type": "AWS::RDS::DBSubnetGroup",
+    },
+    "Ec2AppAlb7DEFB31D": {
+      "DependsOn": [
+        "NetworkVpcPublicSubnet1DefaultRoute31EC04EC",
+        "NetworkVpcPublicSubnet1RouteTableAssociation643926C7",
+        "NetworkVpcPublicSubnet2DefaultRoute0CF082AB",
+        "NetworkVpcPublicSubnet2RouteTableAssociationC662643B",
+      ],
+      "Properties": {
+        "LoadBalancerAttributes": [
+          {
+            "Key": "deletion_protection.enabled",
+            "Value": "false",
+          },
+        ],
+        "Scheme": "internet-facing",
+        "SecurityGroups": [
+          {
+            "Fn::GetAtt": [
+              "Ec2AppAlbSecurityGroup07F166AE",
+              "GroupId",
+            ],
+          },
+        ],
+        "Subnets": [
+          {
+            "Ref": "NetworkVpcPublicSubnet1Subnet36933139",
+          },
+          {
+            "Ref": "NetworkVpcPublicSubnet2SubnetC427CCE0",
+          },
+        ],
+        "Type": "application",
+      },
+      "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+    },
+    "Ec2AppAlbListener81DBCF23": {
+      "Properties": {
+        "DefaultActions": [
+          {
+            "TargetGroupArn": {
+              "Ref": "Ec2AppAlbListenerAlbTargetsGroup09812AB2",
+            },
+            "Type": "forward",
+          },
+        ],
+        "LoadBalancerArn": {
+          "Ref": "Ec2AppAlb7DEFB31D",
+        },
+        "Port": 80,
+        "Protocol": "HTTP",
+      },
+      "Type": "AWS::ElasticLoadBalancingV2::Listener",
+    },
+    "Ec2AppAlbListenerAlbTargetsGroup09812AB2": {
+      "Properties": {
+        "Port": 80,
+        "Protocol": "HTTP",
+        "ProtocolVersion": "HTTP1",
+        "TargetGroupAttributes": [
+          {
+            "Key": "stickiness.enabled",
+            "Value": "false",
+          },
+        ],
+        "TargetType": "instance",
+        "Targets": [
+          {
+            "Id": {
+              "Ref": "Ec2ApplinuxInstance9ED8C3EE",
+            },
+            "Port": 80,
+          },
+        ],
+        "VpcId": {
+          "Ref": "NetworkVpc7FB7348F",
+        },
+      },
+      "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+    },
+    "Ec2AppAlbSecurityGroup07F166AE": {
+      "Properties": {
+        "GroupDescription": "Automatically created Security Group for ELB AppStackEc2AppAlb21E654CF",
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow from anyone on port 80",
+            "FromPort": 80,
+            "IpProtocol": "tcp",
+            "ToPort": 80,
+          },
+        ],
+        "VpcId": {
+          "Ref": "NetworkVpc7FB7348F",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "Ec2AppAlbSecurityGrouptoAppStackEc2ApplinuxInstanceInstanceSecurityGroup9B456617806F2EEF4A": {
+      "Properties": {
+        "Description": "to AppStackEc2ApplinuxInstanceInstanceSecurityGroup9B456617:80",
+        "DestinationSecurityGroupId": {
+          "Fn::GetAtt": [
+            "Ec2ApplinuxInstanceInstanceSecurityGroup3481696A",
+            "GroupId",
+          ],
+        },
+        "FromPort": 80,
+        "GroupId": {
+          "Fn::GetAtt": [
+            "Ec2AppAlbSecurityGroup07F166AE",
+            "GroupId",
+          ],
+        },
+        "IpProtocol": "tcp",
+        "ToPort": 80,
+      },
+      "Type": "AWS::EC2::SecurityGroupEgress",
     },
     "Ec2AppEic41EA4C20": {
       "Properties": {
@@ -284,7 +402,7 @@ exports[`AppStackTest Snapshot 1`] = `
         "UserData": {
           "Fn::Base64": "#!/bin/bash
 sudo dnf -y install httpd
-sudo echo "<h1>Hello from $(hostname)</h1>" > /var/www/html/index.html
+echo "<h1>Hello from $(hostname)</h1>" | sudo tee /var/www/html/index.html > /dev/null
 sudo chown apache:apache /var/www/html/index.html
 sudo systemctl enable httpd
 sudo systemctl start httpd",
@@ -332,6 +450,27 @@ sudo systemctl start httpd",
         },
       },
       "Type": "AWS::EC2::SecurityGroup",
+    },
+    "Ec2ApplinuxInstanceInstanceSecurityGroupfromAppStackEc2AppAlbSecurityGroupF4E77B808078B9BA1D": {
+      "Properties": {
+        "Description": "from AppStackEc2AppAlbSecurityGroupF4E77B80:80",
+        "FromPort": 80,
+        "GroupId": {
+          "Fn::GetAtt": [
+            "Ec2ApplinuxInstanceInstanceSecurityGroup3481696A",
+            "GroupId",
+          ],
+        },
+        "IpProtocol": "tcp",
+        "SourceSecurityGroupId": {
+          "Fn::GetAtt": [
+            "Ec2AppAlbSecurityGroup07F166AE",
+            "GroupId",
+          ],
+        },
+        "ToPort": 80,
+      },
+      "Type": "AWS::EC2::SecurityGroupIngress",
     },
     "Ec2ApplinuxInstanceInstanceSecurityGroupfromAppStackEc2AppEicSg2FA6E47C22281F0DFD": {
       "Properties": {
