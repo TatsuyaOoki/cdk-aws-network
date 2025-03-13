@@ -1,5 +1,7 @@
 import * as cdk from 'aws-cdk-lib';
 import { aws_ec2 as ec2, aws_iam as iam } from 'aws-cdk-lib';
+import { aws_elasticloadbalancingv2 as elbv2 } from 'aws-cdk-lib';
+import { aws_elasticloadbalancingv2_targets as elbv2targets } from 'aws-cdk-lib';
 import { IInstance } from 'aws-cdk-lib/aws-ec2';
 import { Construct } from 'constructs';
 
@@ -49,7 +51,7 @@ export class Ec2App extends Construct {
     const linuxUserdata = ec2.UserData.forLinux({ shebang: '#!/bin/bash' });
     linuxUserdata.addCommands(
       'sudo dnf -y install httpd',
-      'sudo echo "<h1>Hello from $(hostname)</h1>" > /var/www/html/index.html',
+      'echo "<h1>Hello from $(hostname)</h1>" | sudo tee /var/www/html/index.html > /dev/null',
       'sudo chown apache:apache /var/www/html/index.html',
       'sudo systemctl enable httpd',
       'sudo systemctl start httpd',
@@ -90,10 +92,10 @@ export class Ec2App extends Construct {
       ],
     });
 
+    this.linuxinstance = linuxInstance;
+
     linuxInstance.connections.allowFromAnyIpv4(ec2.Port.allIcmp());
     linuxInstance.connections.allowFrom(eicSecurityGroup, ec2.Port.SSH);
-
-    this.linuxinstance = linuxInstance;
 
 
     /* ============ EC2 Instance for Windows ============ */
@@ -133,6 +135,33 @@ export class Ec2App extends Construct {
     //   ],
     // });
 
-    // this.linuxinstance = windowsInstance;
+    // this.windowsinstance = windowsInstance;
+
+    // ========= Application Load Balancer =============== //
+    const alb = new elbv2.ApplicationLoadBalancer(this, 'Alb', {
+      vpc: props.vpc,
+      vpcSubnets: {
+        subnetType: ec2.SubnetType.PUBLIC,
+      },
+      internetFacing: true,
+    });
+
+    const albListener = alb.addListener('Listener', {
+      port: 80,
+      protocol: elbv2.ApplicationProtocol.HTTP,
+      open: true,
+    });
+
+    albListener.addTargets('AlbTargets', {
+      targets: [
+        new elbv2targets.InstanceTarget(linuxInstance, 80),
+      ],
+      port: 80,
+      protocol: elbv2.ApplicationProtocol.HTTP,
+      protocolVersion: elbv2.ApplicationProtocolVersion.HTTP1,
+    });
+
+    linuxInstance.connections.allowFrom(alb, ec2.Port.HTTP);
+
   }
 }
