@@ -59,17 +59,17 @@ export class Ec2App extends Construct {
     );
 
     // AMI (Linux)
-    // const linuxAmi = ec2.MachineImage.latestAmazonLinux2023({
-    //   cachedInContext: true,
-    // });
-
-    const linuxAmi = ec2.MachineImage.lookup({
-      name: 'al2023-ami-2023.6.20241212.0-kernel-6.1-x86_64',
-      owners: [
-        'amazon',
-        accountId,
-      ],
+    const linuxAmi = ec2.MachineImage.latestAmazonLinux2023({
+      cachedInContext: true,
     });
+
+    // const linuxAmi = ec2.MachineImage.lookup({
+    //   name: 'al2023-ami-2023.6.20250303.0-kernel-6.1-x86_64',
+    //   owners: [
+    //     'amazon',
+    //     accountId,
+    //   ],
+    // });
 
     // EC2 instance (Linux)
     const linuxInstance = new ec2.Instance(this, 'linuxInstance', {
