@@ -614,7 +614,7 @@ exports[`AppStackTest Snapshot 1`] = `
         "IamInstanceProfile": {
           "Ref": "Ec2ApplinuxInstanceInstanceProfileDF1E0570",
         },
-        "ImageId": "ami-1234",
+        "ImageId": "dummy-value-for-/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-6.1-x86_64",
         "InstanceType": "t3.micro",
         "KeyName": {
           "Ref": "Ec2AppKeyPairE6956868",
@@ -756,6 +756,18 @@ sudo systemctl start httpd",
       },
       "Type": "AWS::EC2::InternetGateway",
     },
+    "NetworkVpcPrivateSubnet1DefaultRoute08635105": {
+      "Properties": {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "NatGatewayId": {
+          "Ref": "NetworkVpcPublicSubnet1NATGateway64781A21",
+        },
+        "RouteTableId": {
+          "Ref": "NetworkVpcPrivateSubnet1RouteTable7D7AA3CD",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
     "NetworkVpcPrivateSubnet1RouteTable7D7AA3CD": {
       "Properties": {
         "Tags": [
@@ -805,6 +817,18 @@ sudo systemctl start httpd",
         },
       },
       "Type": "AWS::EC2::Subnet",
+    },
+    "NetworkVpcPrivateSubnet2DefaultRouteA15DC6D5": {
+      "Properties": {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "NatGatewayId": {
+          "Ref": "NetworkVpcPublicSubnet1NATGateway64781A21",
+        },
+        "RouteTableId": {
+          "Ref": "NetworkVpcPrivateSubnet2RouteTableC48862D1",
+        },
+      },
+      "Type": "AWS::EC2::Route",
     },
     "NetworkVpcPrivateSubnet2RouteTableAssociation89A2F1E8": {
       "Properties": {
@@ -970,6 +994,42 @@ sudo systemctl start httpd",
         },
       },
       "Type": "AWS::EC2::Route",
+    },
+    "NetworkVpcPublicSubnet1EIPE0D52090": {
+      "Properties": {
+        "Domain": "vpc",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "AppStack/Network/Vpc/PublicSubnet1",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::EIP",
+    },
+    "NetworkVpcPublicSubnet1NATGateway64781A21": {
+      "DependsOn": [
+        "NetworkVpcPublicSubnet1DefaultRoute31EC04EC",
+        "NetworkVpcPublicSubnet1RouteTableAssociation643926C7",
+      ],
+      "Properties": {
+        "AllocationId": {
+          "Fn::GetAtt": [
+            "NetworkVpcPublicSubnet1EIPE0D52090",
+            "AllocationId",
+          ],
+        },
+        "SubnetId": {
+          "Ref": "NetworkVpcPublicSubnet1Subnet36933139",
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "AppStack/Network/Vpc/PublicSubnet1",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::NatGateway",
     },
     "NetworkVpcPublicSubnet1RouteTable30235CE2": {
       "Properties": {
