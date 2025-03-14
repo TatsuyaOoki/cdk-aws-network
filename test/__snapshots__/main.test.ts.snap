@@ -10,6 +10,62 @@ exports[`AppStackTest Snapshot 1`] = `
     },
   },
   "Resources": {
+    "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F": {
+      "DependsOn": [
+        "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-034362045434-ap-northeast-1",
+          "S3Key": "faa95a81ae7d7373f3e1f242268f904eb748d8d0fdd306e8a6fe515a1905a7d6.zip",
+        },
+        "Description": {
+          "Fn::Join": [
+            "",
+            [
+              "Lambda function for auto-deleting objects in ",
+              {
+                "Ref": "Ec2AppAlbLogBucket1DE66F6A",
+              },
+              " S3 bucket.",
+            ],
+          ],
+        },
+        "Handler": "index.handler",
+        "MemorySize": 128,
+        "Role": {
+          "Fn::GetAtt": [
+            "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs20.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Sub": "arn:\${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
     "DataAppRdsInstance0271E82E": {
       "DeletionPolicy": "Delete",
       "Properties": {
@@ -180,6 +236,7 @@ exports[`AppStackTest Snapshot 1`] = `
     },
     "Ec2AppAlb7DEFB31D": {
       "DependsOn": [
+        "Ec2AppAlbLogBucketPolicy6C6759B4",
         "NetworkVpcPublicSubnet1DefaultRoute31EC04EC",
         "NetworkVpcPublicSubnet1RouteTableAssociation643926C7",
         "NetworkVpcPublicSubnet2DefaultRoute0CF082AB",
@@ -190,6 +247,20 @@ exports[`AppStackTest Snapshot 1`] = `
           {
             "Key": "deletion_protection.enabled",
             "Value": "false",
+          },
+          {
+            "Key": "access_logs.s3.enabled",
+            "Value": "true",
+          },
+          {
+            "Key": "access_logs.s3.bucket",
+            "Value": {
+              "Ref": "Ec2AppAlbLogBucket1DE66F6A",
+            },
+          },
+          {
+            "Key": "access_logs.s3.prefix",
+            "Value": "",
           },
         ],
         "Scheme": "internet-facing",
@@ -256,6 +327,172 @@ exports[`AppStackTest Snapshot 1`] = `
         },
       },
       "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+    },
+    "Ec2AppAlbLogBucket1DE66F6A": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "LifecycleConfiguration": {
+          "Rules": [
+            {
+              "ExpirationInDays": 30,
+              "NoncurrentVersionExpiration": {
+                "NoncurrentDays": 30,
+              },
+              "Status": "Enabled",
+            },
+          ],
+        },
+        "Tags": [
+          {
+            "Key": "aws-cdk:auto-delete-objects",
+            "Value": "true",
+          },
+        ],
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "Ec2AppAlbLogBucketAutoDeleteObjectsCustomResourceF798F033": {
+      "DeletionPolicy": "Delete",
+      "DependsOn": [
+        "Ec2AppAlbLogBucketPolicy6C6759B4",
+      ],
+      "Properties": {
+        "BucketName": {
+          "Ref": "Ec2AppAlbLogBucket1DE66F6A",
+        },
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::S3AutoDeleteObjects",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "Ec2AppAlbLogBucketPolicy6C6759B4": {
+      "Properties": {
+        "Bucket": {
+          "Ref": "Ec2AppAlbLogBucket1DE66F6A",
+        },
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "s3:PutBucketPolicy",
+                "s3:GetBucket*",
+                "s3:List*",
+                "s3:DeleteObject*",
+              ],
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::GetAtt": [
+                    "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+                    "Arn",
+                  ],
+                },
+              },
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "Ec2AppAlbLogBucket1DE66F6A",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "Ec2AppAlbLogBucket1DE66F6A",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": "s3:PutObject",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":iam::582318560864:root",
+                    ],
+                  ],
+                },
+              },
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    {
+                      "Fn::GetAtt": [
+                        "Ec2AppAlbLogBucket1DE66F6A",
+                        "Arn",
+                      ],
+                    },
+                    "/AWSLogs/034362045434/*",
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": "s3:PutObject",
+              "Condition": {
+                "StringEquals": {
+                  "s3:x-amz-acl": "bucket-owner-full-control",
+                },
+              },
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "delivery.logs.amazonaws.com",
+              },
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    {
+                      "Fn::GetAtt": [
+                        "Ec2AppAlbLogBucket1DE66F6A",
+                        "Arn",
+                      ],
+                    },
+                    "/AWSLogs/034362045434/*",
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": "s3:GetBucketAcl",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "delivery.logs.amazonaws.com",
+              },
+              "Resource": {
+                "Fn::GetAtt": [
+                  "Ec2AppAlbLogBucket1DE66F6A",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::S3::BucketPolicy",
     },
     "Ec2AppAlbSecurityGroup07F166AE": {
       "Properties": {

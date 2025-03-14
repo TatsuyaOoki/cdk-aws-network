@@ -2,6 +2,7 @@ import * as cdk from 'aws-cdk-lib';
 import { aws_ec2 as ec2, aws_iam as iam } from 'aws-cdk-lib';
 import { aws_elasticloadbalancingv2 as elbv2 } from 'aws-cdk-lib';
 import { aws_elasticloadbalancingv2_targets as elbv2targets } from 'aws-cdk-lib';
+import * as s3 from 'aws-cdk-lib/aws-s3';
 import { IInstance } from 'aws-cdk-lib/aws-ec2';
 import { Construct } from 'constructs';
 
@@ -138,6 +139,20 @@ export class Ec2App extends Construct {
     // this.windowsinstance = windowsInstance;
 
     // ========= Application Load Balancer =============== //
+
+    // S3 Bucket for Access log storage
+    const albLogBucket = new s3.Bucket(this, 'AlbLogBucket', {
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+      autoDeleteObjects: true,
+      lifecycleRules: [
+        {
+          expiration: cdk.Duration.days(30),
+          noncurrentVersionExpiration: cdk.Duration.days(30),
+        },
+      ],
+    });
+
+    // ALB
     const alb = new elbv2.ApplicationLoadBalancer(this, 'Alb', {
       vpc: props.vpc,
       vpcSubnets: {
@@ -145,6 +160,7 @@ export class Ec2App extends Construct {
       },
       internetFacing: true,
     });
+    alb.logAccessLogs(albLogBucket);
 
     const albListener = alb.addListener('Listener', {
       port: 80,
