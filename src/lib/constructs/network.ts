@@ -16,7 +16,7 @@ export class Network extends Construct {
     const vpc = new ec2.Vpc(this, 'Vpc', {
       ipAddresses: ec2.IpAddresses.cidr(props.vpcCidr),
       maxAzs: 2,
-      natGateways: 0,
+      natGateways: 1,
       flowLogs: {},
       subnetConfiguration: [
         {
