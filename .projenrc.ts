@@ -5,6 +5,14 @@ const project = new awscdk.AwsCdkTypeScriptApp({
   defaultReleaseBranch: "main",
   name: "cdk-aws-network",
   projenrcTs: true,
+  buildWorkflow: false,
+  githubOptions: {
+    pullRequestLintOptions: {
+      semanticTitleOptions: {
+        types: ["docs", "perf", "refactor", "test", "style", "fix", "feat", "chore"],
+      },
+    },
+  },
   prettier: true,
   prettierOptions: {
     settings: {
