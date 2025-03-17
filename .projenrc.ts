@@ -5,6 +5,7 @@ const project = new awscdk.AwsCdkTypeScriptApp({
   defaultReleaseBranch: "main",
   name: "cdk-aws-network",
   projenrcTs: true,
+  buildWorkflow: false,
   prettier: true,
   prettierOptions: {
     settings: {
