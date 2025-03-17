@@ -45,14 +45,14 @@ describe("AppStackTest", () => {
       {
         MapPublicIpOnLaunch: true,
       },
-      2
+      2,
     );
     template.resourcePropertiesCountIs(
       "AWS::EC2::Subnet",
       {
         MapPublicIpOnLaunch: false,
       },
-      4
+      4,
     );
   });
 });

@@ -39,12 +39,10 @@ export class Ec2App extends Construct {
       path: "/",
       managedPolicies: [
         {
-          managedPolicyArn:
-            "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore",
+          managedPolicyArn: "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore",
         },
         {
-          managedPolicyArn:
-            "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy",
+          managedPolicyArn: "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy",
         },
       ],
     });
@@ -58,7 +56,7 @@ export class Ec2App extends Construct {
       'echo "<h1>Hello from $(hostname)</h1>" | sudo tee /var/www/html/index.html > /dev/null',
       "sudo chown apache:apache /var/www/html/index.html",
       "sudo systemctl enable httpd",
-      "sudo systemctl start httpd"
+      "sudo systemctl start httpd",
     );
 
     // AMI (Linux)
@@ -77,10 +75,7 @@ export class Ec2App extends Construct {
     // EC2 instance (Linux)
     const linuxInstance = new ec2.Instance(this, "linuxInstance", {
       vpc: props.vpc,
-      instanceType: ec2.InstanceType.of(
-        ec2.InstanceClass.T3,
-        ec2.InstanceSize.MICRO
-      ),
+      instanceType: ec2.InstanceType.of(ec2.InstanceClass.T3, ec2.InstanceSize.MICRO),
       machineImage: linuxAmi,
       role: instanceRole,
       vpcSubnets: {
