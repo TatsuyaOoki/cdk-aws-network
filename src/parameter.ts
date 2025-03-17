@@ -1,5 +1,5 @@
-import { Environment } from 'aws-cdk-lib';
-import * as dotenv from 'dotenv';
+import { Environment } from "aws-cdk-lib";
+import * as dotenv from "dotenv";
 
 export interface AppParameter {
   env?: Environment;
@@ -11,15 +11,14 @@ export interface AppParameter {
 
 dotenv.config();
 
-
 export const devParameter: AppParameter = {
   env: {
     account: process.env.CDK_DEPLOY_ACCOUNT,
     region: process.env.CDK_DEPLOY_REGION,
   },
-  envName: 'Develop',
-  repository: 'TatsuyaOoki/cdk-aws-network',
-  projectName: 'template',
+  envName: "Develop",
+  repository: "TatsuyaOoki/cdk-aws-network",
+  projectName: "template",
 
-  vpcCidr: '10.0.0.0/16',
+  vpcCidr: "10.0.0.0/16",
 };

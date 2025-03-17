@@ -1,8 +1,8 @@
-import * as ec2 from 'aws-cdk-lib/aws-ec2';
-import { Construct } from 'constructs';
+import * as ec2 from "aws-cdk-lib/aws-ec2";
+import { Construct } from "constructs";
 
 export interface NetworkProps {
-  vpcCidr : string;
+  vpcCidr: string;
 }
 
 export class Network extends Construct {
@@ -11,9 +11,8 @@ export class Network extends Construct {
   constructor(scope: Construct, id: string, props: NetworkProps) {
     super(scope, id);
 
-
     // ============== VPC ============================= //
-    const vpc = new ec2.Vpc(this, 'Vpc', {
+    const vpc = new ec2.Vpc(this, "Vpc", {
       ipAddresses: ec2.IpAddresses.cidr(props.vpcCidr),
       maxAzs: 2,
       natGateways: 1,
@@ -21,22 +20,21 @@ export class Network extends Construct {
       subnetConfiguration: [
         {
           cidrMask: 24,
-          name: 'Public',
+          name: "Public",
           subnetType: ec2.SubnetType.PUBLIC,
         },
         {
           cidrMask: 24,
-          name: 'Private',
+          name: "Private",
           subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
         },
         {
           cidrMask: 24,
-          name: 'Protected',
+          name: "Protected",
           subnetType: ec2.SubnetType.PRIVATE_ISOLATED,
         },
       ],
     });
     this.vpc = vpc;
-
   }
 }
