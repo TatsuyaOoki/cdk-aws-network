@@ -5,6 +5,12 @@ const project = new awscdk.AwsCdkTypeScriptApp({
   defaultReleaseBranch: "main",
   name: "cdk-aws-network",
   projenrcTs: true,
+  prettier: true,
+  prettierOptions: {
+    settings: {
+      printWidth: 100,
+    },
+  },
 
   // deps: [], /* Runtime dependencies of this module. */
   // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
