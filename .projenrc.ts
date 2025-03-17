@@ -1,9 +1,9 @@
-import { awscdk } from 'projen';
-import { UpdateSnapshot } from 'projen/lib/javascript';
+import { awscdk } from "projen";
+import { UpdateSnapshot, PrettierOptions } from "projen/lib/javascript";
 const project = new awscdk.AwsCdkTypeScriptApp({
-  cdkVersion: '2.1.0',
-  defaultReleaseBranch: 'main',
-  name: 'cdk-aws-network',
+  cdkVersion: "2.1.0",
+  defaultReleaseBranch: "main",
+  name: "cdk-aws-network",
   projenrcTs: true,
 
   // deps: [], /* Runtime dependencies of this module. */
@@ -11,12 +11,8 @@ const project = new awscdk.AwsCdkTypeScriptApp({
   // devDeps: [],             /* Build dependencies for this module. */
   // packageName: undefined,  /* The "name" in package.json. */
 
-  deps: [
-    'dotenv',
-  ],
-  gitignore: [
-    '.env',
-  ],
+  deps: ["dotenv"],
+  gitignore: [".env"],
 
   tsconfig: {
     compilerOptions: {
