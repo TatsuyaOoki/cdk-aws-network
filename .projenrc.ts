@@ -1,5 +1,5 @@
 import { awscdk } from "projen";
-import { UpdateSnapshot, PrettierOptions } from "projen/lib/javascript";
+import { UpdateSnapshot } from "projen/lib/javascript";
 const project = new awscdk.AwsCdkTypeScriptApp({
   cdkVersion: "2.1.0",
   defaultReleaseBranch: "main",
