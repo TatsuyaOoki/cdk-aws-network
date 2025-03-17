@@ -22,7 +22,6 @@
 			"extensions": [
 				"amazonwebservices.aws-toolkit-vscode",
 				"dbaeumer.vscode-eslint",
-				"usernamehw.errorlens",
 				"esbenp.prettier-vscode",
 				"mhutchie.git-graph"
 			],
@@ -30,10 +29,7 @@
 				"[typescript]": {
 					"editor.formatOnSave": true,
 					"editor.defaultFormatter": "esbenp.prettier-vscode"
-				},
-				"errorLens.enabledDiagnosticLevels": [
-					"error"
-				]
+				}
 			}
 		}
 	}
