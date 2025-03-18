@@ -1,5 +1,5 @@
 import * as cdk from "aws-cdk-lib";
-import { aws_ec2 as ec2, aws_iam as iam } from "aws-cdk-lib";
+import * as ec2 from "aws-cdk-lib/aws-ec2";
 import * as rds from "aws-cdk-lib/aws-rds";
 import { Construct } from "constructs";
 
