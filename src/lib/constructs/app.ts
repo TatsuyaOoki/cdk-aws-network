@@ -1,9 +1,9 @@
 import * as cdk from "aws-cdk-lib";
-import { aws_ec2 as ec2, aws_iam as iam } from "aws-cdk-lib";
-import { aws_elasticloadbalancingv2 as elbv2 } from "aws-cdk-lib";
-import { aws_elasticloadbalancingv2_targets as elbv2targets } from "aws-cdk-lib";
+import * as ec2 from "aws-cdk-lib/aws-ec2";
+import * as iam from "aws-cdk-lib/aws-iam";
+import * as elbv2 from "aws-cdk-lib/aws-elasticloadbalancingv2";
+import * as elbv2targets from "aws-cdk-lib/aws-elasticloadbalancingv2-targets";
 import * as s3 from "aws-cdk-lib/aws-s3";
-import { IInstance } from "aws-cdk-lib/aws-ec2";
 import { Construct } from "constructs";
 
 export interface Ec2Props {
@@ -11,8 +11,8 @@ export interface Ec2Props {
 }
 
 export class Ec2App extends Construct {
-  public readonly linuxinstance: IInstance;
-  // public readonly windowsinstance: IInstance;
+  public readonly linuxinstance: ec2.IInstance;
+  // public readonly windowsinstance: ec2.IInstance;
 
   constructor(scope: Construct, id: string, props: Ec2Props) {
     super(scope, id);
