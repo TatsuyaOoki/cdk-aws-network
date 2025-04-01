@@ -30,7 +30,7 @@
     "@typescript-eslint/eslint-plugin": "^8",
     "@typescript-eslint/parser": "^8",
     "aws-cdk": "^2",
-    "esbuild": "^0.25.1",
+    "esbuild": "^0.25.2",
     "eslint": "^9",
     "eslint-config-prettier": "^10.1.1",
     "eslint-import-resolver-typescript": "^3.10.0",
@@ -40,7 +40,7 @@
     "jest-junit": "^16",
     "prettier": "^3.5.3",
     "projen": "^0.91.18",
-    "ts-jest": "^29.3.0",
+    "ts-jest": "^29.3.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2"
   },
