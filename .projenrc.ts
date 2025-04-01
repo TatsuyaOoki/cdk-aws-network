@@ -43,7 +43,7 @@ const project = new awscdk.AwsCdkTypeScriptApp({
 
 This is an AWS CDK project managed using **Projen**.
 By default, the configuration is as follows.
-<img width="600" alt="AWS Configuration Diagram" src="https://github.com/user-attachments/assets/fffac243-591f-48ba-8928-5507307a1f2f">
+<img width="600" alt="AWS Configuration Diagram" src="https://github.com/user-attachments/assets/a3115fed-7fa1-4383-9487-60f3ce9c93c9">
 
 ## 📢 Important: Do Not Edit Managed Files Manually
 This project is configured using **Projen**, which automates dependency management and file generation.
