@@ -1,5 +1,7 @@
 import * as cdk from "aws-cdk-lib";
+import * as backup from "aws-cdk-lib/aws-backup";
 import * as ec2 from "aws-cdk-lib/aws-ec2";
+import * as events from "aws-cdk-lib/aws-events";
 import * as rds from "aws-cdk-lib/aws-rds";
 import { Construct } from "constructs";
 
@@ -51,5 +53,30 @@ export class DataApp extends Construct {
     rdsInstance.connections.allowFrom(props.instance, ec2.Port.MYSQL_AURORA);
 
     this.rdsInstance = rdsInstance;
+
+    // ========= AWS Backup =============== //
+    const backupVault = new backup.BackupVault(this, "BackupVault", {
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+    });
+
+    const backupPlan = new backup.BackupPlan(this, "BackupPlan", {
+      backupVault: backupVault,
+    });
+    backupPlan.addRule(
+      new backup.BackupPlanRule({
+        backupVault: backupVault,
+        scheduleExpression: events.Schedule.cron({ minute: "00", hour: "16" }),
+        startWindow: cdk.Duration.hours(1),
+        completionWindow: cdk.Duration.days(1),
+        deleteAfter: cdk.Duration.days(2),
+      }),
+    );
+    new backup.BackupSelection(this, "backupSelection", {
+      backupPlan: backupPlan,
+      resources: [
+        backup.BackupResource.fromTag("AWSBackup", "true"),
+        backup.BackupResource.fromTag("Environment", "Production"),
+      ],
+    });
   }
 }
