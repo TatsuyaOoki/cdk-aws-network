@@ -66,6 +66,39 @@ exports[`AppStackTest Snapshot 1`] = `
       },
       "Type": "AWS::IAM::Role",
     },
+    "DataAppBackupPlan755E8956": {
+      "Properties": {
+        "BackupPlan": {
+          "BackupPlanName": "BackupPlan",
+          "BackupPlanRule": [
+            {
+              "CompletionWindowMinutes": 1440,
+              "Lifecycle": {
+                "DeleteAfterDays": 2,
+              },
+              "RuleName": "BackupPlanRule0",
+              "ScheduleExpression": "cron(00 16 * * ? *)",
+              "StartWindowMinutes": 60,
+              "TargetBackupVault": {
+                "Fn::GetAtt": [
+                  "DataAppBackupVault86641FB0",
+                  "BackupVaultName",
+                ],
+              },
+            },
+          ],
+        },
+      },
+      "Type": "AWS::Backup::BackupPlan",
+    },
+    "DataAppBackupVault86641FB0": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "BackupVaultName": "AppStackDataAppBackupVault58443D26",
+      },
+      "Type": "AWS::Backup::BackupVault",
+      "UpdateReplacePolicy": "Delete",
+    },
     "DataAppRdsInstance0271E82E": {
       "DeletionPolicy": "Delete",
       "Properties": {
@@ -233,6 +266,69 @@ exports[`AppStackTest Snapshot 1`] = `
         ],
       },
       "Type": "AWS::RDS::DBSubnetGroup",
+    },
+    "DataAppbackupSelectionF55A2C86": {
+      "Properties": {
+        "BackupPlanId": {
+          "Fn::GetAtt": [
+            "DataAppBackupPlan755E8956",
+            "BackupPlanId",
+          ],
+        },
+        "BackupSelection": {
+          "IamRoleArn": {
+            "Fn::GetAtt": [
+              "DataAppbackupSelectionRole9F7992EF",
+              "Arn",
+            ],
+          },
+          "ListOfTags": [
+            {
+              "ConditionKey": "AWSBackup",
+              "ConditionType": "STRINGEQUALS",
+              "ConditionValue": "true",
+            },
+            {
+              "ConditionKey": "Environment",
+              "ConditionType": "STRINGEQUALS",
+              "ConditionValue": "Production",
+            },
+          ],
+          "SelectionName": "backupSelection",
+        },
+      },
+      "Type": "AWS::Backup::BackupSelection",
+    },
+    "DataAppbackupSelectionRole9F7992EF": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "backup.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSBackupServiceRolePolicyForBackup",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
     },
     "Ec2AppAlb7DEFB31D": {
       "DependsOn": [
