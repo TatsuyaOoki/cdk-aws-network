@@ -4,6 +4,8 @@ import * as elbv2 from "aws-cdk-lib/aws-elasticloadbalancingv2";
 import * as elbv2targets from "aws-cdk-lib/aws-elasticloadbalancingv2-targets";
 import * as iam from "aws-cdk-lib/aws-iam";
 import * as s3 from "aws-cdk-lib/aws-s3";
+import * as scheduler from "aws-cdk-lib/aws-scheduler";
+import * as scheduler_targets from "aws-cdk-lib/aws-scheduler-targets";
 import { Construct } from "constructs";
 
 export interface Ec2Props {
@@ -176,5 +178,40 @@ export class Ec2App extends Construct {
     });
 
     linuxInstance.connections.allowFrom(alb, ec2.Port.HTTP);
+
+    // ========= Event Bridge Scheduler =============== //
+    // EC2 Instance Auto Start
+    new scheduler.Schedule(this, "AutoStart", {
+      schedule: scheduler.ScheduleExpression.cron({
+        weekDay: "MON-FRI",
+        hour: "9",
+        minute: "0",
+        timeZone: cdk.TimeZone.ASIA_TOKYO,
+      }),
+      target: new scheduler_targets.Universal({
+        service: "ec2",
+        action: "StartInstances",
+        input: scheduler.ScheduleTargetInput.fromObject({
+          InstanceIds: [linuxInstance.instanceId],
+        }),
+      }),
+    });
+
+    // EC2 Instance Auto Stop
+    new scheduler.Schedule(this, "AutoStop", {
+      schedule: scheduler.ScheduleExpression.cron({
+        weekDay: "MON-FRI",
+        hour: "21",
+        minute: "0",
+        timeZone: cdk.TimeZone.ASIA_TOKYO,
+      }),
+      target: new scheduler_targets.Universal({
+        service: "ec2",
+        action: "StopInstances",
+        input: scheduler.ScheduleTargetInput.fromObject({
+          InstanceIds: [linuxInstance.instanceId],
+        }),
+      }),
+    });
   }
 }
