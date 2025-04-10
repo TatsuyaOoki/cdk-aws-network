@@ -190,7 +190,7 @@ export class Ec2App extends Construct {
       }),
       target: new scheduler_targets.Universal({
         service: "ec2",
-        action: "StartInstances",
+        action: "startinstances",
         input: scheduler.ScheduleTargetInput.fromObject({
           InstanceIds: [linuxInstance.instanceId],
         }),
@@ -207,7 +207,7 @@ export class Ec2App extends Construct {
       }),
       target: new scheduler_targets.Universal({
         service: "ec2",
-        action: "StopInstances",
+        action: "stopinstances",
         input: scheduler.ScheduleTargetInput.fromObject({
           InstanceIds: [linuxInstance.instanceId],
         }),
