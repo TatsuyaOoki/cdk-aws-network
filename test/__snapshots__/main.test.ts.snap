@@ -646,7 +646,7 @@ exports[`AppStackTest Snapshot 1`] = `
                 {
                   "Ref": "AWS::Partition",
                 },
-                ":scheduler:::aws-sdk:ec2:startinstances",
+                ":scheduler:::aws-sdk:ec2:startInstances",
               ],
             ],
           },
@@ -668,7 +668,7 @@ exports[`AppStackTest Snapshot 1`] = `
           },
           "RoleArn": {
             "Fn::GetAtt": [
-              "SchedulerRoleForTarget0ddf05728A6517",
+              "SchedulerRoleForTarget2816ab01137F93",
               "Arn",
             ],
           },
@@ -693,7 +693,7 @@ exports[`AppStackTest Snapshot 1`] = `
                 {
                   "Ref": "AWS::Partition",
                 },
-                ":scheduler:::aws-sdk:ec2:stopinstances",
+                ":scheduler:::aws-sdk:ec2:stopInstances",
               ],
             ],
           },
@@ -715,7 +715,7 @@ exports[`AppStackTest Snapshot 1`] = `
           },
           "RoleArn": {
             "Fn::GetAtt": [
-              "SchedulerRoleForTarget3028c9B20AD93B",
+              "SchedulerRoleForTargetd31fb558B65FB3",
               "Arn",
             ],
           },
@@ -1347,7 +1347,7 @@ sudo systemctl start httpd",
       },
       "Type": "AWS::EC2::VPCGatewayAttachment",
     },
-    "SchedulerRoleForTarget0ddf05728A6517": {
+    "SchedulerRoleForTarget2816ab01137F93": {
       "Properties": {
         "AssumeRolePolicyDocument": {
           "Statement": [
@@ -1381,28 +1381,28 @@ sudo systemctl start httpd",
       },
       "Type": "AWS::IAM::Role",
     },
-    "SchedulerRoleForTarget0ddf05DefaultPolicyF87E9341": {
+    "SchedulerRoleForTarget2816abDefaultPolicy12BF43C9": {
       "Properties": {
         "PolicyDocument": {
           "Statement": [
             {
-              "Action": "ec2:Startinstances",
+              "Action": "ec2:StartInstances",
               "Effect": "Allow",
               "Resource": "*",
             },
           ],
           "Version": "2012-10-17",
         },
-        "PolicyName": "SchedulerRoleForTarget0ddf05DefaultPolicyF87E9341",
+        "PolicyName": "SchedulerRoleForTarget2816abDefaultPolicy12BF43C9",
         "Roles": [
           {
-            "Ref": "SchedulerRoleForTarget0ddf05728A6517",
+            "Ref": "SchedulerRoleForTarget2816ab01137F93",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "SchedulerRoleForTarget3028c9B20AD93B": {
+    "SchedulerRoleForTargetd31fb558B65FB3": {
       "Properties": {
         "AssumeRolePolicyDocument": {
           "Statement": [
@@ -1436,22 +1436,22 @@ sudo systemctl start httpd",
       },
       "Type": "AWS::IAM::Role",
     },
-    "SchedulerRoleForTarget3028c9DefaultPolicyE5226126": {
+    "SchedulerRoleForTargetd31fb5DefaultPolicyF6698B01": {
       "Properties": {
         "PolicyDocument": {
           "Statement": [
             {
-              "Action": "ec2:Stopinstances",
+              "Action": "ec2:StopInstances",
               "Effect": "Allow",
               "Resource": "*",
             },
           ],
           "Version": "2012-10-17",
         },
-        "PolicyName": "SchedulerRoleForTarget3028c9DefaultPolicyE5226126",
+        "PolicyName": "SchedulerRoleForTargetd31fb5DefaultPolicyF6698B01",
         "Roles": [
           {
-            "Ref": "SchedulerRoleForTarget3028c9B20AD93B",
+            "Ref": "SchedulerRoleForTargetd31fb558B65FB3",
           },
         ],
       },
